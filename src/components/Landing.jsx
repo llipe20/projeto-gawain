@@ -1,6 +1,6 @@
 // PAGINA PRINCIPAL DO SISTEMA
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { HiOutlineSearch } from "react-icons/hi";
 import { HiX } from "react-icons/hi";
 import { FaLinkedinIn, FaWhatsapp, FaInstagram } from "react-icons/fa";
@@ -12,12 +12,38 @@ import API from "../api/integracao";
 import '../App.css';
 
 const LandingPage = () => {
-    let search = ''
+    const [Eng, setEng] = useState([])
+    const [Psi, setPsi] = useState([])
+    const [Java, setJava] = useState([])
+    const [Medi, setMedi] = useState([])
+    const [Search, setSearch] = useState([])
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const engData = await API('academic')
+                const psiData = await API('math')
+                const javaData = await API('react')
+                const mediData = await API('php')
+    
+                setEng(engData)
+                setPsi(psiData)
+                setJava(javaData)
+                setMedi(mediData)
+            } catch (error) {
+                console.error('Ocorreu um erro ao buscar os dados:', error)
+            }
+        }
+    
+        fetchData()
+    }, [])
+
     const Searching = () => {
         const input = document.getElementById('input-search')
-        search = input.value 
+        const search = input.value 
+        setSearch(API(`${search}`))
     }
-
+  
     const Open = (id) => {
         const container = document.getElementById(id)
         container.classList.remove('hidden')
@@ -64,11 +90,11 @@ const LandingPage = () => {
             <main className="flex flex-col justify-start items-center w-full min-h-96 gap-4 bg-white lg:bg-gray-200">
                 <div className="w-full h-5 bg-yellow-900"></div>
 
-                <Volume estante={API(search)} name={"Resultados"} />
-                <Volume estante={API('psychology')} name={"Psicologia"} />
-                <Volume estante={API('java')} name={"Java"} />
-                <Volume estante={API('medicine')} name={"Medicina"} />
-                <Volume estante={API('engineering')} name={"Engenharia"} />
+                <Volume estante={Search} name={"Resultados"} />
+                <Volume estante={Psi} name={"Psicologia"} />
+                <Volume estante={Java} name={"React"} />
+                <Volume estante={Medi} name={"Medicina"} /> 
+                <Volume estante={Eng} name={"PHP"} />
             </main>
             {/* Rodape da trem*/}
             <footer className="flex flex-col justify-center items-center w-full h-44 lg:h-52 mt-4">
