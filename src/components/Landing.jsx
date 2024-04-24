@@ -1,6 +1,6 @@
 // PAGINA PRINCIPAL DO SISTEMA
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { HiOutlineSearch } from "react-icons/hi";
 import { HiX } from "react-icons/hi";
 import { FaLinkedinIn, FaWhatsapp, FaInstagram } from "react-icons/fa";
@@ -12,41 +12,26 @@ import API from "../api/integracao";
 import '../App.css';
 
 const LandingPage = () => {
-    const [Eng, setEng] = useState([])
-    const [Psi, setPsi] = useState([])
-    const [Java, setJava] = useState([])
-    const [Medi, setMedi] = useState([])
+
     const [Search, setSearch] = useState([])
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const engData = await API('academic')
-                const psiData = await API('math')
-                const javaData = await API('react')
-                const mediData = await API('php')
-    
-                setEng(engData)
-                setPsi(psiData)
-                setJava(javaData)
-                setMedi(mediData)
-            } catch (error) {
-                console.error('Ocorreu um erro ao buscar os dados:', error)
-            }
-        }
-    
-        fetchData()
-    }, [])
-
-    const Searching = () => {
+    const Searching = async () => {
         const input = document.getElementById('input-search')
-        const search = input.value 
-        setSearch(API(`${search}`))
+        if(input.value !== '') {
+            let search = await API(input.value)
+            setSearch(search)
+        } else {
+            console.log('Vazio')
+        }
     }
   
     const Open = (id) => {
         const container = document.getElementById(id)
         container.classList.remove('hidden')
+    }
+
+    const Clear = (id) => {
+        const input = document.getElementById('input-search')
+        input.value = '' 
     }
 
     return (
@@ -78,8 +63,8 @@ const LandingPage = () => {
                     <div className="flex w-full h-20 lg:h-16 justify-center items-start p-4 lg:p-0">
                         <div className="flex justify-between items-center w-full md:w-1/2 h-10 lg:h-12 text-black lg:text-lg bg-white pl-4 pr-4 rounded-lg overlow-hidden">
                             <HiOutlineSearch onClick={() => Searching()} className="cursor-pointer hover:scale-105" />
-                            <input id="input-search" type="text" className="w-11/12 h-10 lg:h-12 border-0 outline-0 pl-3 lg:p-0" placeholder="Pesquisar" />
-                            <HiX className="cursor-pointer hover:scale-105" />
+                            <input id="input-search" type="text" className="w-11/12 h-10 lg:h-12 border-0 outline-0 pl-3 lg:p-0" placeholder="Pesquisar" autoFocus />
+                            <HiX onClick={() => Clear()} className="cursor-pointer hover:scale-105" />
                         </div>
                     </div>
                 </div>
@@ -91,10 +76,34 @@ const LandingPage = () => {
                 <div className="w-full h-5 bg-yellow-900"></div>
 
                 <Volume estante={Search} name={"Resultados"} />
-                <Volume estante={Psi} name={"Psicologia"} />
-                <Volume estante={Java} name={"React"} />
-                <Volume estante={Medi} name={"Medicina"} /> 
-                <Volume estante={Eng} name={"PHP"} />
+    
+                {/* CONTEINER RELACIONADO AO TEXTO SOBRE O PROJETO*/}
+                <section className="flex flex-col justify-between gap-5 w-full lg:w-10/12 pl-4 pr-4 lg:pr-0">
+                    <div className="flex justify-start items-center w-full">
+                        <h2 className="w-full text-lg lg:text-2xl font-bold border-b-4 border-yellow-900 text-black text-start">
+                            Projeto Gawain
+                        </h2>
+                    </div>
+                    <div className="flex justify-center items-center w-full gap-3 min-h-96 rounded-lg bg-white lg:shadow lg:p-3">
+                        <span>
+                            AQUI ADICIONAR UM TEXTO SOBRE O PROJETO, PODE SER QUALQUER COISA PRA ENCHER LINGUÇA, JOGA NO CHAT
+                        </span>
+                    </div>
+                </section>
+
+                {/* CONTEINER RELACIONADO AO TEXTO SOBRE O PROJETO*/}
+                <section className="flex flex-col justify-between gap-5 w-full lg:w-10/12 pl-4 pr-4 lg:pr-0">
+                    <div className="flex justify-start items-center w-full">
+                        <h2 className="w-full text-lg lg:text-2xl font-bold border-b-4 border-yellow-900 text-black text-start">
+                            Titulo qualquer
+                        </h2>
+                    </div>
+                    <div className="flex justify-center items-center w-full gap-3 min-h-96 rounded-lg bg-white lg:shadow lg:p-3">
+                        <span>
+                            AQUI ADICIONAR QUALQUER COISA PRA ENCHER A LANDING PAGE DO PROJETO, PODE SER QUALQUER COISA PRA ENCHER LINGUÇA, JOGA NO CHAT
+                        </span>
+                    </div>
+                </section>
             </main>
             {/* Rodape da trem*/}
             <footer className="flex flex-col justify-center items-center w-full h-44 lg:h-52 mt-4">

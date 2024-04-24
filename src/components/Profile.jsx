@@ -4,6 +4,7 @@
 // 3. SE O USUARIO NÃO TIVER LOGADO, DEVE APARECER UMA OPÇÃO PARA ELE LOGAR (E SER REDIRECIONADO A TEALA DE LOGIN)
 // 4. DEVERÃO APARECER TAMBEM ITEMS RELACIONADOS AO USUARIO, COMO LIVROS QUE ELE FAVORITOU POR EXEMPLO, OU OUTRA COISA, COMO QUISEREM
 
+import { TfiClose } from "react-icons/tfi";
 import React from "react";
 
 const Close = () => {
@@ -15,7 +16,7 @@ const Profile = () => {
     return (
         <div id="container" className="flex flex-col justify-start items-center gap-2 w-3/4 lg:w-1/3 h-screen bg-white p-5 absolute top-0 right-0 z-50 hidden">
             <div className="flex justify-end items-center w-full h-auto">
-                <button onClick={() => Close()}>X</button>
+                <button onClick={() => Close()}><TfiClose /></button>
             </div>
             <div className="w-16 lg:w-32 h-16 lg:h-32 rounded-full bg-gray-300">
                 {/*FOTO DO USUARIO AQUI*/}

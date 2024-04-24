@@ -14,9 +14,15 @@ const Volume = ({estante, name}) => {
             <section className="flex justify-center items-center w-full min-h-96  mt-2 mb-2">
                 <section className="grid grid-cols-2 lg:grid-cols-5 grid-rows-2 justify-center items-center w-full gap-3 min-h-96 rounded-lg bg-white lg:shadow lg:p-3">
                     {
-                        estante.map((book, index) => (
-                             <Card book={book} />
-                        ))
+                        estante.lenght === 0 ? 
+                            ( 
+                                <div>Vazio</div> 
+                            ) : 
+                            (
+                                estante.map((book, index) => (
+                                    <Card book={book} />
+                                ))
+                            )
                     }
                 </section>
             </section>
